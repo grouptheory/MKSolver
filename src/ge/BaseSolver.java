@@ -1,26 +1,11 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package ge;
 
-import equation.GroupWord;
+import equation.GroupEquation;
 import utility.ConsoleLogger;
 
 /**
@@ -49,7 +34,7 @@ public class BaseSolver {
         }
     }
 
-    public GroupWord getSolution(Base bs) {
+    public GroupEquation getSolution(Base bs) {
         BaseSolutionDecorator vbsd = (BaseSolutionDecorator)
             bs.lookupDecorator(BaseSolutionDecorator.NAME);
         if (vbsd==null) {
@@ -69,7 +54,7 @@ public class BaseSolver {
         boolean answer;
         if (bs.isConstant()) {
             ConsoleLogger.instance().debug("Solution", "Const bs:"+bs.toStringShort());
-            GroupWord sol = new GroupWord();
+            GroupEquation sol = new GroupEquation();
             sol.appendLetter(bs.getLabel());
             BaseSolutionDecorator vbsd = new BaseSolutionDecorator(sol);
             bs.attachDecorator(BaseSolutionDecorator.NAME, vbsd);
@@ -91,7 +76,7 @@ public class BaseSolver {
                     if (answer) {
                         ConsoleLogger.instance().debug("Solution", "GE reports isSolved="+answer);
                         
-                        GroupWord sol =
+                        GroupEquation sol =
                             GESolver.instance().getSolution(geq, bs.getUncollapsedBegin(), bs.getUncollapsedEnd());
 
                         BaseSolutionDecorator vbsd = new BaseSolutionDecorator(sol);

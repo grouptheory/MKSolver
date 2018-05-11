@@ -1,27 +1,12 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package ge;
 
 import java.util.Iterator;
-import equation.GroupWord;
+import equation.GroupEquation;
 import letter.Letter;
 import utility.ConsoleLogger;
 
@@ -67,15 +52,15 @@ public class GESolver {
         return getSolution(geq, begin, end) != null;
     }
 
-    public GroupWord getSolution(GE geq, Boundary begin, Boundary end) {
-        GroupWord sol = buildSolutionIncremental(geq, begin, end, null);
+    public GroupEquation getSolution(GE geq, Boundary begin, Boundary end) {
+        GroupEquation sol = buildSolutionIncremental(geq, begin, end, null);
         return sol;
     }
 
 
-    private GroupWord buildSolutionIncremental(GE geq, Boundary begin, Boundary end, GroupWord partial) {
+    private GroupEquation buildSolutionIncremental(GE geq, Boundary begin, Boundary end, GroupEquation partial) {
         if (partial == null) {
-            partial = new GroupWord();
+            partial = new GroupEquation();
         }
 
         ConsoleLogger.instance().debug("Solution2", "buildSolutionIncremental ("+begin+","+end+") partial:"+partial);
@@ -88,11 +73,11 @@ public class GESolver {
 
                 ConsoleLogger.instance().debug("Solution2", "Found a piece in: "+bs);
 
-                GroupWord partialCopy = partial.duplicate();
-                GroupWord augmentBy = BaseSolver.instance().getSolution(bs);
-                GroupWord partialAugmented = GroupWord.concatenate(partialCopy, augmentBy);
+                GroupEquation partialCopy = partial.duplicate();
+                GroupEquation augmentBy = BaseSolver.instance().getSolution(bs);
+                GroupEquation partialAugmented = GroupEquation.concatenate(partialCopy, augmentBy);
                 if (bs.getEnd().getID() < end.getID()) {
-                    GroupWord continuation = buildSolutionIncremental(geq,bs.getEnd(),end,partialAugmented);
+                    GroupEquation continuation = buildSolutionIncremental(geq,bs.getEnd(),end,partialAugmented);
                     if (continuation != null) {
                         return continuation;
                     }

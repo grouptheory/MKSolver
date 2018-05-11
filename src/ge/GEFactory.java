@@ -1,27 +1,11 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package ge;
 
 import equation.QuadraticSystem;
-import equation.Equivalences;
 import cancellation.Diagram;
 import cancellation.LabeledPath;
 import cancellation.Path;
@@ -100,8 +84,6 @@ public class GEFactory {
                 ge.addNewConstantBase(begin, (Constant)let);
             }
             else {
-                Variable var = (Variable)let;
-                
                 vars.add(let);
                 
                 if (endIndex-beginIndex <= 0) {
@@ -115,10 +97,10 @@ public class GEFactory {
                 boolean forced = false;
 
                 if (lp2 == null) {
-                    Equivalences lut = qs.getEquivalences();
-                    Letter equiv = (Letter)lut.get(var);
+                    HashMap lut = qs.getEquivalences();
+                    Letter equiv = (Letter)lut.get(let);
                     if (equiv==null) {
-                        equiv = (Letter)lut.get((Variable)var.getInverse());
+                        equiv = (Letter)lut.get(let.getInverse());
                         equiv = equiv.getInverse();
                     }
                     
@@ -209,7 +191,7 @@ public class GEFactory {
             Boundary begin2 = ge.getNthBoundary(beginIndex2);
             Boundary end2 = ge.getNthBoundary(endIndex2);
 
-            Variable mu = LetterFactory.instance().getUnusedVariable(vars,
+            Variable mu = LetterFactory.instance().newUnusedVariable(vars,
                     params.MKParams.TEMPVAR_BASE, Boolean.TRUE);
             
             ge.addNewVariableBase(begin, end, (Variable)mu, end2, begin2);

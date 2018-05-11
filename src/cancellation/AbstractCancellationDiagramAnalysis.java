@@ -1,22 +1,7 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package cancellation;
 
@@ -25,30 +10,29 @@ import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.Iterator;
 import letter.Letter;
-import letter.Variable;
-import equation.GroupWord;
-import equation.Equivalences;
+import equation.GroupEquation;
 import equation.QuadraticSystem;
 
 /**
  *
  * @author grouptheory
  */
-abstract class AbstractCancellationDiagramAnalysis
+public abstract class AbstractCancellationDiagramAnalysis
     implements ICancellationDiagramAnalysis {
 
-    private GroupWord _problem;
+    private GroupEquation _problem;
     private QuadraticSystem _qs;
-    private Equivalences _equiv;
-    private GroupWord _problemQuadratic;
+    private HashMap _equiv;
+    private GroupEquation _problemQuadratic;
     private LinkedList _decorators;
 
-    protected AbstractCancellationDiagramAnalysis(GroupWord problem, QuadraticSystem qs) {
+    protected AbstractCancellationDiagramAnalysis(GroupEquation problem, QuadraticSystem qs) {
         _problem = problem;
         _qs = qs;
 
-        _problemQuadratic = qs.getQuadraticEquation();
-        _equiv = qs.getEquivalences().duplicate();
+        _problemQuadratic = qs.getEquation();
+        _equiv = new HashMap();
+        _equiv.putAll(qs.getEquivalences());
 
         _decorators = new LinkedList();
     }
@@ -61,7 +45,7 @@ abstract class AbstractCancellationDiagramAnalysis
         return _decorators.iterator();
     }
 
-    public final GroupWord getProblem() {
+    public final GroupEquation getProblem() {
         return _problem;
     }
 
@@ -69,11 +53,11 @@ abstract class AbstractCancellationDiagramAnalysis
         return _qs;
     }
 
-    public final GroupWord getQuadraticEquation() {
+    public final GroupEquation getQuadraticEquation() {
         return _problemQuadratic;
     }
 
-    public final Equivalences getEquivalences() {
+    public final HashMap getEquivalences() {
         return _equiv;
     }
 
@@ -83,8 +67,8 @@ abstract class AbstractCancellationDiagramAnalysis
         s += ("Quadratic Equation: "+_problemQuadratic+" = 1\n");
 
         s+="\n\nVariable equivalences:\n\n";
-        for (Iterator it=_equiv.iteratorVariables(); it.hasNext();) {
-            Variable let = (Variable)it.next();
+        for (Iterator it=_equiv.keySet().iterator(); it.hasNext();) {
+            Letter let = (Letter)it.next();
             s += (let.toString() + "="+ ((Letter)_equiv.get(let)).toString() + "; \n");
         }
 

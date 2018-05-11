@@ -1,27 +1,13 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package report;
 
 
-import equation.GroupWord;
+import equation.GroupEquation;
+import cancellation.CancellationDiagramTree;
 import cancellation.CancellationDiagramFactory;
 
 /**
@@ -32,36 +18,29 @@ public class MetaReport {
 
     public static void create(String equationAsString, String experimentName, int MAX_SUBTREE) {
 
-        GroupWord problem = new GroupWord(equationAsString);
-/*
+        GroupEquation problem = new GroupEquation(equationAsString);
+
         CancellationDiagramReport report1 =
                 new CancellationDiagramReport(experimentName, problem);
-        FilePersistenceReportObserver f1 = new FilePersistenceReportObserver();
-        ConsoleReportObserver c1 = new ConsoleReportObserver();
-        report1.attachObserver(f1);
-        report1.attachObserver(c1);
-        report1.create();
-        f1.close();
-
-
         GEPrintsReport report2 =
                 new GEPrintsReport(experimentName, problem);
-        FilePersistenceReportObserver f2 = new FilePersistenceReportObserver();
-        ConsoleReportObserver c2 = new ConsoleReportObserver();
-        report2.attachObserver(f2);
-        report2.attachObserver(c2);
-        report2.create();
-        f2.close();
-*/
-
         SolutionReport report3 =
                 new SolutionReport(experimentName, problem, MAX_SUBTREE);
-        FilePersistenceReportObserver f3 = new FilePersistenceReportObserver();
-        ConsoleReportObserver c3 = new ConsoleReportObserver();
-        report3.attachObserver(f3);
-        report3.attachObserver(c3);
-        report3.create();
-        f3.close();
 
+        FilePersistenceReportObserver f1 = new FilePersistenceReportObserver();
+        FilePersistenceReportObserver f2 = new FilePersistenceReportObserver();
+        FilePersistenceReportObserver f3 = new FilePersistenceReportObserver();
+        
+        report1.attachObserver(f1);
+        report2.attachObserver(f2);
+        report3.attachObserver(f3);
+
+        report1.create();
+        report2.create();
+        report3.create();
+
+        f1.close();
+        f2.close();
+        f3.close();
     }
 }

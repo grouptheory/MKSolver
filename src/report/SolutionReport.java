@@ -1,22 +1,7 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package report;
 
@@ -27,7 +12,7 @@ import makanin.PrintIterator;
 import makanin.PrintIteratorFactory;
 import ge.Latex;
 import ge.CancellationDiagramAnalysis_GEDecorator;
-import equation.GroupWord;
+import equation.GroupEquation;
 import equation.QuadraticSystem;
 import cancellation.Diagram;
 import cancellation.DiagramTreeNode;
@@ -53,7 +38,7 @@ public class SolutionReport extends AbstractReport {
 
     private static String SUFFIX = "-Solution.tex";
 
-    String latexHeader(GroupWord eq) {
+    String latexHeader(GroupEquation eq) {
         String s = "";
         s+="\\documentclass[final]{article}\n";
         s+="\\usepackage{amssymb,amsmath,amsfonts}\n";
@@ -65,7 +50,7 @@ public class SolutionReport extends AbstractReport {
         s+="\\pagestyle{fancy}\n";
         s+="\\fancyhead{}\n";
         s+="\\fancyfoot{}\n";
-        s+="\\fancyhead[CO,CE]{$"+equation.LatexAdapter.instance().renderGroupEquation(eq)+"$}\n";
+        s+="\\fancyhead[CO,CE]{$"+equation.Latex.instance().renderGroupEquation(eq)+"$}\n";
         s+="\\fancyfoot[RO, LE] {\\thepage}\n";
         s+="\\begin{document}\n";
         if ( ! params.MKParams.FLAG_REPORT_DATE) {
@@ -74,12 +59,12 @@ public class SolutionReport extends AbstractReport {
         return s;
     }
 
-    String latexTitle(GroupWord eq) {
+    String latexTitle(GroupEquation eq) {
         String s="";
         s+="\\title{\n";
         s+="  {\\Large Solution of the equation \\\\";
         s += "$";
-        s += equation.LatexAdapter.instance().renderGroupEquation(eq);
+        s += equation.Latex.instance().renderGroupEquation(eq);
         s += "$";
         s += "\\\\ in a Free Group}\n";
         s+="  {\\normalsize\n";
@@ -104,17 +89,17 @@ public class SolutionReport extends AbstractReport {
         return s;
     }
 
-    private GroupWord _eq;
+    private GroupEquation _eq;
     private int MAX_SUBTREE;
 
-    SolutionReport(String reportname, GroupWord eq, int maxSubtree) {
+    SolutionReport(String reportname, GroupEquation eq, int maxSubtree) {
         super(reportname+SUFFIX);
         _eq = eq;
         MAX_SUBTREE = maxSubtree;
     }
 
     public void create() {
-        GroupWord prob = _eq.duplicate();
+        GroupEquation prob = _eq.duplicate();
 
         ICancellationDiagramAnalysis analysis;
         analysis = CancellationDiagramFactory.instance().newDiagramProbe(prob);
@@ -145,7 +130,7 @@ public class SolutionReport extends AbstractReport {
 
             pq.enqueue(gnode);
 
-            writeEntry(cancellation.LatexAdapter.instance().renderDiagram(d));
+            writeEntry(cancellation.Latex.instance().renderDiagram(d));
             
             int gen=0;
             while (!pq.empty()) {

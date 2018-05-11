@@ -1,30 +1,13 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package makanin;
 
 import java.util.LinkedList;
 import java.util.Iterator;
 import utility.ConsoleLogger;
-import solutions.Solution;
-import solutions.SolutionFactory;
 
 /**
  *
@@ -101,11 +84,7 @@ public class GENodePriorityQueue {
         if (next.isLeaf()) {
             next.appendToLog("This GE is a leaf in the GE tree.  ");
             if (next.isSolvable()) {
-                next.appendToLog("We have effectively found a solution!\n");
-
-                Solution ss = SolutionFactory.instance().newSolution(next);
-                String solStr = solutions.Latex.instance().renderSolution(ss);
-                next.appendToLog(solStr);
+                next.appendToLog("We have effectively found a solution!");
             }
             else {
                 next.appendToLog("This branch of the tree has led us to a dead end.");

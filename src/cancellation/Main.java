@@ -1,33 +1,14 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package cancellation;
 
 import java.util.Iterator;
 import letter.LetterFactory;
 import letter.Letter;
-import equation.GroupWord;
-import report.SimpleReport;
-import report.ConsoleReportObserver;
-import report.FilePersistenceReportObserver;
-import report.IReport;
+import equation.GroupEquation;
 
 /**
  *
@@ -205,7 +186,7 @@ public class Main {
 
         System.out.println("\nTEST Real-world EQUATION TEST:\n");
 
-        GroupWord prob = new GroupWord("z1+.c1+.z1+.c2+.z1+.");
+        GroupEquation prob = new GroupEquation("z1+.c1+.z1+.c2+.z1+.");
         System.out.println("Original Equation: "+prob+" = 1\n");
 
         ICancellationDiagramAnalysis analysis =
@@ -214,9 +195,6 @@ public class Main {
         System.out.println("Analysis: \n\n");
         System.out.println(analysis.toString());
 
-        IReport report = new SimpleReport("Output");
-        report.attachObserver(new ConsoleReportObserver());
-
-        LatexAdapter.instance().renderCancellationDiagramAnalysis(report, analysis);
+        System.out.println(Latex.instance().renderCancellationDiagramAnalysis(analysis));
     }
 }

@@ -1,33 +1,17 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package cancellation;
 
 import letter.Letter;
-import equation.GroupWord;
+import equation.GroupEquation;
 import java.util.LinkedList;
 import java.util.Iterator;
 
 /**
- * A node in the tree of all cancellation Diagrams.
- * 
+ *
  * @author grouptheory
  */
 public class DiagramTreeNode {
@@ -54,16 +38,11 @@ public class DiagramTreeNode {
         _leaf = false;
     }
     
-    /**
-     * Gets the Diagram associated with this DiagramTreeNode.
-     *
-     * @return the associated Diagram.
-     */
     public Diagram getDiagram() {
         return _d;
     }
     
-    String getName() {
+    public String getName() {
         return _name;
     }
 
@@ -71,11 +50,6 @@ public class DiagramTreeNode {
         _leaf = true;
     }
 
-    /**
-     * Determines if this DiagramTreeNode is a leaf.
-     * 
-     * @return true if this DiagramTreeNode is a leaf.
-     */
     public boolean getLeaf() {
         return _leaf;
     }
@@ -115,11 +89,6 @@ public class DiagramTreeNode {
         }
     }
 
-    /**
-     * Compute the String representation of this DiagramTreeNode.
-     *
-     * @return a String.
-     */
     public String toString() {
         String s = "DiagramTreeNode BEGIN\n";
         s += _d.toString();
@@ -193,7 +162,7 @@ public class DiagramTreeNode {
             return s;
         }
 
-        LinkedList getDiagramTreeNodeList() {
+        public LinkedList getDiagramTreeNodeList() {
             return _treenodes;
         }
     }

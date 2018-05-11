@@ -1,22 +1,7 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package cancellation;
 
@@ -24,8 +9,7 @@ import java.util.LinkedList;
 import java.util.Iterator;
 
 /**
- * A Path in the cancellation Diagram.
- * 
+ *
  * @author grouptheory
  */
 public class Path {
@@ -100,11 +84,6 @@ public class Path {
         return _srcNode;
     }
 
-    /**
-     * Get the length of this Path in Edges.
-     *
-     * @return the integer length.
-     */
     public int length() {
         int sz = _nodeList.size() - 1;
         if (isEdgePath()) sz++;
@@ -191,11 +170,6 @@ public class Path {
         _edgeList.add(i, e1);
     }
 
-    /**
-     * Get the String representation of this Path.
-     *
-     * @return a String.
-     */
     public String toString() {
         String s = "[len="+length()+"] ";
         Iterator itNodes = _nodeList.iterator();

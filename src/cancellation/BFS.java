@@ -1,22 +1,7 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package cancellation;
 
@@ -31,7 +16,7 @@ import java.util.Map.Entry;
  *
  * @author grouptheory
  */
-class BFS {
+public class BFS {
 
     private Node _src;
     private LinkedList _frontier;
@@ -98,14 +83,6 @@ class BFS {
     boolean reachable(Node nd) {
         _d.validateNode(nd);
         return _markedNodes.contains(nd);
-    }
-
-    int countMarkedNodes() {
-        return _markedNodes.size();
-    }
-
-    int countMarkedEdges() {
-        return _markedEdges.size();
     }
 
     boolean reachable(Edge e) {
@@ -187,7 +164,7 @@ class BFS {
         return s;
     }
 
-    void validate() {
+    public void validate() {
         for (Iterator it = reachableNodesIterator(); it.hasNext();) {
             Node nd = (Node)it.next();
             if (nd == _src) continue;

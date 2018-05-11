@@ -1,22 +1,7 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package letter;
 
@@ -27,7 +12,6 @@ import java.util.LinkedList;
 import java.util.Iterator;
 
 /**
- * Singleton class which makes {@link Constant} and {@link Variable} objects.
  *
  * @author grouptheory
  */
@@ -43,9 +27,6 @@ public class LetterFactory {
     private static LetterFactory _instance;
 
     private LetterFactory() {
-        utility.ConsoleLogger.instance().debug(this.getClass().getSimpleName(),
-                "LetterFactory.ctor");
-
         _id2constant_pos = new TreeMap();
         _id2constant_neg = new TreeMap();
         _id2variable_pos = new TreeMap();
@@ -54,11 +35,6 @@ public class LetterFactory {
         _highvariable = 0;
     }
 
-    /**
-     * Gets singleton LetterFactory instance.
-     *
-     * @return the unique LetterFactory in existence.
-     */
     public static LetterFactory instance() {
         if (_instance == null) {
             _instance = new LetterFactory();
@@ -66,15 +42,6 @@ public class LetterFactory {
         return _instance;
     }
 
-    /**
-     * Parses a String into a LinkedList of Letter objects.  The
-     * invariant being that parse(s) returns a list of Letter objects such
-     * that the concatenation of the return values of toString()
-     * on these Letter objects, would once again yield s.
-     *
-     * @param s the String.
-     * @return a LinkedList of Letter objects.
-     */
     public LinkedList parse(String s) {
         LinkedList letters = new LinkedList();
         LetterReaderState lrs;
@@ -87,34 +54,11 @@ public class LetterFactory {
         return letters;
     }
 
-    /**
-     * Creates a new previously unused constant.
-     * 
-     * @param pos indicates if the exponent is +1 if pos is true, and -1 if pos is false.
-     * @return a new Constant object.
-     */
-    public Constant newUnusedConstant(Boolean pos) {
-        Constant c = getConstant(_highconstant+1, pos);
-        if (Safety.CHECK) {
-            utility.ConsoleLogger.instance().debug(this.getClass().getSimpleName(),
-                "LetterFactory.newUnusedConstant returning "+c);
-        }
-        return c;
+    public Variable newUnusedConstant(Boolean pos) {
+        return getVariable(_highconstant+1, pos);
     }
 
-    /**
-     * Gets a Constant with a given ID (subscript), creating it for the first time
-     * if necessary.
-     *
-     * @param id the subscript.
-     * @param pos the exponent (+1 if pos is true, -1 otherwise).
-     * @return a Constant object (either pre-existing, or newly made).
-     */
     public Constant getConstant(int id, Boolean pos) {
-        if (Safety.CHECK && id < 0) {
-            throw new RuntimeException("LetterFactory.getConstant: id < 0");
-        }
-
         Constant c = null;
         if (pos) {
             c = (Constant)_id2constant_pos.get(new Integer(id));
@@ -126,10 +70,6 @@ public class LetterFactory {
         if (c == null) {
             c = new Constant(id, pos);
             Constant cinv = new Constant(id, !pos);
-
-            utility.ConsoleLogger.instance().debug(this.getClass().getSimpleName(),
-                "LetterFactory.getConstant created "+c+" and "+cinv);
-
             c.setInverse(cinv);
             cinv.setInverse(c);
             if (pos) {
@@ -147,48 +87,21 @@ public class LetterFactory {
         return c;
     }
 
-    /**
-     * Creates a new previously unused variable.
-     *
-     * @param pos indicates if the exponent is +1 if pos is true, and -1 if pos is false.
-     * @return a new Variable object.
-     */
     public Variable newUnusedVariable(Boolean pos) {
-        Variable v = getVariable(_highvariable+1, pos);
-        if (Safety.CHECK) {
-            utility.ConsoleLogger.instance().debug(this.getClass().getSimpleName(),
-                "LetterFactory.newUnusedVariable returning "+v);
-        }
-        return v;
+        //System.out.println(" high is  "+_highvariable);
+        return getVariable(_highvariable+1, pos);
     }
 
     private Variable newUnusedVariable(int minID, Boolean pos) {
         if (minID > _highvariable+1) {
+            // System.out.println("setting high to "+(minID-1));
             _highvariable = minID-1;
-            if (Safety.CHECK) {
-                utility.ConsoleLogger.instance().debug(this.getClass().getSimpleName(),
-                "LetterFactory.newUnusedVariable _highvariable updated to "+_highvariable);
-            }
         }
         
-        Variable v = getVariable(_highvariable+1, pos);
-        if (Safety.CHECK) {
-            utility.ConsoleLogger.instance().debug(this.getClass().getSimpleName(),
-                "LetterFactory.newUnusedVariable returning "+v);
-        }
-        return v;
+        return getVariable(_highvariable+1, pos);
     }
-
-    /**
-     * Return a variable whose index that is outside of a given set of off-limit indices
-     * and is of a minimum size.
-     *
-     * @param used list of Variables whose indices are off-limits.
-     * @param minID the minimum value of the index.
-     * @param pos
-     * @return a Variable object.
-     */
-    public Variable getUnusedVariable(HashSet used, int minID, Boolean pos) {
+    
+    public Variable newUnusedVariable(HashSet used, int minID, Boolean pos) {
         TreeMap srch;
         if (pos) {
             srch = _id2variable_pos;
@@ -209,27 +122,44 @@ public class LetterFactory {
                 }
             }
         }
+        
+        /*
+        if (minID==0) {
+            System.out.println("LetterFactory used set has size: "+used.size());
+            for (Iterator it=used.iterator(); it.hasNext();) {
+                Letter let = (Letter)it.next();
+                System.out.println("used: "+let);
+            }
+            System.out.println("LetterFactory _highvariable: "+_highvariable);
+            if (answer==null) {
+                System.out.println("LetterFactory (answer==null)");
+            }
+        }
+        */
 
         if (answer==null) {
             answer = newUnusedVariable(minID, pos);
         }
 
+        /*
+        if (minID==0) {
+            System.out.println("POST LetterFactory used set has size: "+used.size());
+            for (Iterator it=used.iterator(); it.hasNext();) {
+                Letter let = (Letter)it.next();
+                System.out.println("POST used: "+let);
+            }
+            System.out.println("POST LetterFactory _highvariable: "+_highvariable);
+            if (answer==null) {
+                System.out.println("POST LetterFactory (answer==null)");
+            }
+            System.out.println("POST LetterFactory returning: "+answer);
+        }
+        */
+
         return answer;
     }
 
-    /**
-     * Gets a variable of a specified subscript and exponent (+1 or -1), making the Variable for the
-     * first time if necessary.
-     *
-     * @param id the subscript.
-     * @param pos the exponent (+1 if pos is true, -1 otherwise).
-     * @return the requested Variable.
-     */
     public Variable getVariable(int id, Boolean pos) {
-        if (Safety.CHECK && id < 0) {
-            throw new RuntimeException("LetterFactory.getVariable: id < 0");
-        }
-
         Variable v = null;
         if (pos) {
             v = (Variable)_id2variable_pos.get(new Integer(id));
@@ -241,12 +171,6 @@ public class LetterFactory {
         if (v == null) {
             v = new Variable(id, pos);
             Variable vinv = new Variable(id, !pos);
-
-            if (Safety.CHECK) {
-                utility.ConsoleLogger.instance().debug(this.getClass().getSimpleName(),
-                "LetterFactory.getVariable created "+v+" and "+vinv);
-            }
-
             v.setInverse(vinv);
             vinv.setInverse(v);
             if (pos) {
@@ -258,6 +182,7 @@ public class LetterFactory {
                 _id2variable_pos.put(new Integer(id), vinv);
             }
             if (_highvariable < id) {
+                // System.out.println("*** setting high to "+id);
                 _highvariable = id;
             }
         }
@@ -271,12 +196,16 @@ public class LetterFactory {
     }
 
     private LetterReaderState readNextLetter(String s) {
+
+        //System.out.println("called w: "+s);
         
         Boolean var = false;
         if (s.charAt(0) == Letter.VARIABLE_SYMBOL.charAt(0)) {
+            //System.out.println("var");
             var = true;
         }
         else if (s.charAt(0) == Letter.CONSTANT_SYMBOL.charAt(0)) {
+            //System.out.println("const");
             var = false;
         }
         else {
@@ -284,8 +213,10 @@ public class LetterFactory {
         }
 
         int endofletter = s.indexOf(Letter.ENDOFLETTER_SYMBOL);
+        //System.out.println("endofletter="+endofletter);
 
         String idstr = s.substring(1, endofletter-1);
+        //System.out.println("idstr="+idstr);
 
         int id = Integer.parseInt(idstr);
 
@@ -316,11 +247,6 @@ public class LetterFactory {
         return lrs;
     }
 
-    /**
-     * Creates a String representation of this LetterFactory.
-     * 
-     * @return a String.
-     */
     public String toString() {
         String s = "";
         s+="_id2constant_pos size = "+_id2constant_pos.size()+"\n";

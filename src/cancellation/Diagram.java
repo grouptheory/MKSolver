@@ -1,22 +1,7 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package cancellation;
 
@@ -45,7 +30,7 @@ public class Diagram {
 
     LinkedList _labeledPaths;
     
-    Diagram() {
+    public Diagram() {
         _nodes = new HashMap();
         _nodeCount = 0;
         _edges = new HashSet();
@@ -89,15 +74,15 @@ public class Diagram {
         }
     }
 
-    Node getBegin() {
+    public Node getBegin() {
         return _begin;
     }
 
-    Node getEnd() {
+    public Node getEnd() {
         return _end;
     }
 
-    boolean isClosed() {
+    public boolean isClosed() {
         return this.getBegin()==this.getEnd();
     }
     
@@ -130,12 +115,6 @@ public class Diagram {
         return _nodes.size();
     }
 
-    /**
-     * Get an Iterator over the Edge objects constituting this Diagram,
-     * in order of the cancellation process.
-     *
-     * @return an Iterator over edges.
-     */
     public Iterator iteratorEdges() {
         return _edges.iterator();
     }
@@ -144,24 +123,10 @@ public class Diagram {
         return _nodes.values().iterator();
     }
 
-    /**
-     * Get an Iterator over the LabeledPaths objects constituting this Diagram,
-     * in order of the cancellation process.
-     *
-     * @return an Iterator over LabeledPaths.
-     */
     public Iterator iteratorLabeledPaths() {
         return _labeledPaths.iterator();
     }
 
-    /**
-     * Get the dual of a LabeledPath in this Diagram,
-     * if it exists.  If more than one dual exists in the
-     * Diagram, an exception is thrown.
-     * 
-     * @param lp a LabeledPath.
-     * @return its dual.
-     */
     public LabeledPath getDual(LabeledPath lp) {
         validateLabeledPath(lp);
         
@@ -189,12 +154,6 @@ public class Diagram {
         return answer;
     }
 
-    /**
-     * Get the two LabeledPaths traversing an Edge.
-     *
-     * @param e an Edge in this Diagram.
-     * @return an array containing two LabeledPaths.
-     */
     public LabeledPath[] getPaths(Edge e) {
         validateEdge(e);
 
@@ -222,14 +181,6 @@ public class Diagram {
         return lpArray;
     }
 
-    /**
-     * Get a LabeledPath that carries a particular Variable label.  Note
-     * that there are generally 2 such paths in the Diagram, and this method
-     * returns one of them arbitrarily.
-     *
-     * @param v a Variable.
-     * @return the LabeledPath carrying v.
-     */
     public LabeledPath getVariablePath(Variable v) {
 
         // System.out.println("Searching for "+v+"\n");
@@ -347,12 +298,6 @@ public class Diagram {
         _end = lp.getNewEnd();
     }
     
-    /**
-     *
-     * Compute the String representation of this Diagra,.
-     *
-     * @return a String.
-     */
     public String toString() {
         String s = "";
         s+=">>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
@@ -420,9 +365,6 @@ public class Diagram {
     }
 
 
-    /**
-     * A Diagram decorator.
-     */
     public interface Decorator {
     }
     

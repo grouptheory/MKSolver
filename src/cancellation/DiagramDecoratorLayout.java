@@ -1,22 +1,7 @@
 /*
-    Copyright 2008 Bilal Khan
-    grouptheory@gmail.com
-
-    This file is part of MKSolver.
-
-    MKSolver is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    MKSolver is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 package cancellation;
 
@@ -28,10 +13,10 @@ import java.util.HashMap;
  *
  * @author grouptheory
  */
-class DiagramDecoratorLayout extends Graph implements Diagram.Decorator {
+public class DiagramDecoratorLayout extends Graph implements Diagram.Decorator {
 
-    DiagramDecoratorLayout (Diagram cd) {super (); initialize (cd);}
-    DiagramDecoratorLayout (Diagram cd, int d) {super (d); initialize (cd);}
+    public DiagramDecoratorLayout (Diagram cd) {super (); initialize (cd);}
+    public DiagramDecoratorLayout (Diagram cd, int d) {super (d); initialize (cd);}
 
     private void initialize (Diagram cd) {
         int n = cd.getNumberOfNodes();
@@ -66,12 +51,12 @@ class DiagramDecoratorLayout extends Graph implements Diagram.Decorator {
 
     }
     
-    double getX(Node nd) {
+    public double getX(Node nd) {
         Vertex v = getVertex(nd);
         return v.getCoords()[0];
     }
 
-    double getY(Node nd) {
+    public double getY(Node nd) {
         Vertex v = getVertex(nd);
         return v.getCoords()[1];
     }
@@ -200,7 +185,7 @@ class DiagramDecoratorLayout extends Graph implements Diagram.Decorator {
     }
 
 
-    String validate(Diagram d) {
+    public String validate(Diagram d) {
         String s = "";
         for (Iterator it = d.iteratorNodes(); it.hasNext();) {
             Node nd = (Node)it.next();
